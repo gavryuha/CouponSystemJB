@@ -24,7 +24,7 @@ public class Coupon {
 	private String imageString;
 	private Date issuedDate;
 	private int status;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long getId() {
@@ -34,7 +34,7 @@ public class Coupon {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	@Column(nullable = false)
 	public long getCompanyId() {
 		return companyId;
@@ -43,7 +43,7 @@ public class Coupon {
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
 	}
-	
+
 	@Column(nullable = false)
 	public Category getCategory() {
 		return category;
@@ -52,7 +52,7 @@ public class Coupon {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+
 	@Column(nullable = false)
 	public String getTitleString() {
 		return titleString;
@@ -61,7 +61,7 @@ public class Coupon {
 	public void setTitleString(String titleString) {
 		this.titleString = titleString;
 	}
-	
+
 	@Column(nullable = false)
 	public String getDescriptionString() {
 		return descriptionString;
@@ -70,7 +70,7 @@ public class Coupon {
 	public void setDescriptionString(String descriptionString) {
 		this.descriptionString = descriptionString;
 	}
-	
+
 	@Column(nullable = false)
 	public Date getStartDate() {
 		return startDate;
@@ -79,7 +79,7 @@ public class Coupon {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	
+
 	@Column(nullable = false)
 	public Date getEndDate() {
 		return endDate;
@@ -88,7 +88,7 @@ public class Coupon {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
+
 	@Column(nullable = true)
 	public long getAmount() {
 		return amount;
@@ -97,7 +97,7 @@ public class Coupon {
 	public void setAmount(long amount) {
 		this.amount = amount;
 	}
-	
+
 	@Column(nullable = false)
 	public Double getPriceDouble() {
 		return priceDouble;
@@ -106,7 +106,7 @@ public class Coupon {
 	public void setPriceDouble(Double priceDouble) {
 		this.priceDouble = priceDouble;
 	}
-	
+
 	@Column(nullable = true)
 	public String getImageString() {
 		return imageString;
@@ -115,7 +115,7 @@ public class Coupon {
 	public void setImageString(String imageString) {
 		this.imageString = imageString;
 	}
-	
+
 	@Column(nullable = false)
 	public int getStatus() {
 		return status;
@@ -124,7 +124,7 @@ public class Coupon {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
 	@Column(nullable = false)
 	public Date getIssuedDate() {
 		return issuedDate;

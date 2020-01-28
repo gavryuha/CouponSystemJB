@@ -1,5 +1,7 @@
 package com.projectjb.couponsystemjb.repo;
 
-public interface CouponRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CouponRepository extends JpaRepository<CouponRepository, Long>{
 
 }
