@@ -4,15 +4,10 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GeneratorType;
-
-import com.sun.istack.Nullable;
 
 @Entity
 @Table(name = "Coupons")
@@ -133,6 +128,10 @@ public class Coupon {
 	@Column(nullable = false)
 	public Date getIssuedDate() {
 		return issuedDate;
+	}
+
+	public void setIssuedDate(Date issuedDate) {
+		this.issuedDate = issuedDate;
 	}
 
 	public Coupon(long id, long companyId, Category category, String titleString, String descriptionString,
