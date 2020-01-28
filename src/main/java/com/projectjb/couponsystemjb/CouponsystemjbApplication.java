@@ -9,7 +9,7 @@ public class CouponsystemjbApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(CouponsystemjbApplication.class, args);
-
+		System.out.println("GO");
 	}
 
 }
