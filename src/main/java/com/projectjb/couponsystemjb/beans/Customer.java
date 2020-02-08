@@ -1,22 +1,41 @@
 package com.projectjb.couponsystemjb.beans;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "Customers")
 public class Customer {
 	private long id;
-	private String firstNameString;
-	private String lastNameString;
-	private String emailString;
-	private String passwordString;
-	private List<Coupon> coupons = new ArrayList<Coupon>();
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String password;
+	private List<Coupon> coupons;
+
+	public Customer() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Customer(String firstName, String lastName, String email, String password,
+			List<Coupon> coupons) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.coupons = coupons;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,43 +47,44 @@ public class Customer {
 		this.id = id;
 	}
 
-	@Column(nullable = false)
-	public String getFirstNameString() {
-		return firstNameString;
+	@Column
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirstNameString(String firstNameString) {
-		this.firstNameString = firstNameString;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	@Column(nullable = false)
-	public String getLastNameString() {
-		return lastNameString;
+	@Column
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLastNameString(String lastNameString) {
-		this.lastNameString = lastNameString;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	@Column(nullable = false)
-	public String getEmailString() {
-		return emailString;
+	@Column(unique = true)
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmailString(String emailString) {
-		this.emailString = emailString;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	@Column(nullable = false)
-	public String getPasswordString() {
-		return passwordString;
+	@Column
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPasswordString(String passwordString) {
-		this.passwordString = passwordString;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinTable(name = "customers_vs_coupons", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "coupon_id"), foreignKey = @ForeignKey(name = "FK_CUSTOMER_ID"), inverseForeignKey = @ForeignKey(name = "FK_COUPON_ID"))
 	public List<Coupon> getCoupons() {
 		return coupons;
 	}
@@ -73,23 +93,10 @@ public class Customer {
 		this.coupons = coupons;
 	}
 
-	public Customer() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Customer(String firstNameString, String lastNameString, String emailString, String passwordString,
-			List<Coupon> coupons) {
-		this.firstNameString = firstNameString;
-		this.lastNameString = lastNameString;
-		this.emailString = emailString;
-		this.passwordString = passwordString;
-		this.coupons = coupons;
-	}
-
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", firstNameString=" + firstNameString + ", lastNameString=" + lastNameString
-				+ ", coupons=" + coupons + "]";
+		return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", email=" + email + ", password=" + password + ", coupons=" + coupons + "]";
 	}
 
 }

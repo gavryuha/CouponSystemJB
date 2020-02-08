@@ -1,29 +1,60 @@
 package com.projectjb.couponsystemjb.beans;
 
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projectjb.couponsystemjb.enums.CouponType;
 
 @Entity
 @Table(name = "Coupons")
 public class Coupon {
+
 	private long id;
-	private long companyId;
-	private Category category;
-	private String titleString;
-	private String descriptionString;
+	private CouponType category;
+	private String title;
+	private String description;
 	private Date startDate;
 	private Date endDate;
 	private long amount;
-	private Double priceDouble;
-	private String imageString;
-	private Date issuedDate;
-	private int status;
+	private Double price;
+	private String image;
+
+	@JsonIgnore
+	private List<Customer> customers;
+
+	@JsonIgnore
+	private Company company;
+
+	public Coupon() {
+	}
+
+	public Coupon(CouponType category, String title, String description, Date startDate, Date endDate,
+			long amount, Double price, String image) {
+		this.category = category;
+		this.title = title;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.amount = amount;
+		this.price = price;
+		this.image = image;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,43 +66,35 @@ public class Coupon {
 		this.id = id;
 	}
 
-	@Column(nullable = false)
-	public long getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(long companyId) {
-		this.companyId = companyId;
-	}
-
-	@Column(nullable = false)
-	public Category getCategory() {
+	@Column
+	@Enumerated(EnumType.STRING)
+	public CouponType getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(CouponType category) {
 		this.category = category;
 	}
 
-	@Column(nullable = false)
-	public String getTitleString() {
-		return titleString;
+	@Column
+	public String getTitle() {
+		return title;
 	}
 
-	public void setTitleString(String titleString) {
-		this.titleString = titleString;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	@Column(nullable = false)
-	public String getDescriptionString() {
-		return descriptionString;
+	@Column
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescriptionString(String descriptionString) {
-		this.descriptionString = descriptionString;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	@Column(nullable = false)
+	@Column
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -80,7 +103,7 @@ public class Coupon {
 		this.startDate = startDate;
 	}
 
-	@Column(nullable = false)
+	@Column
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -89,7 +112,7 @@ public class Coupon {
 		this.endDate = endDate;
 	}
 
-	@Column(nullable = true)
+	@Column
 	public long getAmount() {
 		return amount;
 	}
@@ -98,66 +121,48 @@ public class Coupon {
 		this.amount = amount;
 	}
 
-	@Column(nullable = false)
-	public Double getPriceDouble() {
-		return priceDouble;
+	@Column
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setPriceDouble(Double priceDouble) {
-		this.priceDouble = priceDouble;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
-	@Column(nullable = true)
-	public String getImageString() {
-		return imageString;
+	@Column
+	public String getImage() {
+		return image;
 	}
 
-	public void setImageString(String imageString) {
-		this.imageString = imageString;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
-	@Column(nullable = false)
-	public int getStatus() {
-		return status;
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinTable(name = "customers_vs_coupons", joinColumns = @JoinColumn(name = "coupon_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"), foreignKey = @ForeignKey(name = "FK_COUPON_ID"), inverseForeignKey = @ForeignKey(name = "FK_CUSTOMER_ID"))
+	public List<Customer> getCustomers() {
+		return customers;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
 	}
 
-	@Column(nullable = false)
-	public Date getIssuedDate() {
-		return issuedDate;
+	@ManyToOne
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setIssuedDate(Date issuedDate) {
-		this.issuedDate = issuedDate;
-	}
-
-	public Coupon(long id, long companyId, Category category, String titleString, String descriptionString,
-			Date startDate, Date endDate, long amount, Double priceDouble, String imageString) {
-		this.id = id;
-		this.companyId = companyId;
-		this.category = category;
-		this.titleString = titleString;
-		this.descriptionString = descriptionString;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.amount = amount;
-		this.priceDouble = priceDouble;
-		this.imageString = imageString;
-	}
-
-	public Coupon() {
-		// TODO Auto-generated constructor stub
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	@Override
 	public String toString() {
-		return "Coupon [id=" + id + ", companyId=" + companyId + ", category=" + category + ", titleString="
-				+ titleString + ", descriptionString=" + descriptionString + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", amount=" + amount + ", priceDouble=" + priceDouble + ", imageString=" + imageString
-				+ ", status=" + status + "]";
+		return "Coupon [id=" + id + ", category=" + category + ", title=" + title + ", description="
+				+ description + ", startDate=" + startDate + ", endDate=" + endDate + ", amount=" + amount
+				+ ", price=" + price + ", image=" + image + "]";
 	}
 
 }

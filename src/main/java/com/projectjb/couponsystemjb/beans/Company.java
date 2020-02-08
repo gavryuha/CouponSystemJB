@@ -1,9 +1,9 @@
 package com.projectjb.couponsystemjb.beans;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,15 +12,30 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "companies")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Company {
 
 	private long id;
-	private String nameString;
-	private String emailString;
-	private String passwordString;
-	private List<Coupon> coupons = new ArrayList<Coupon>();
+	private String name;
+	private String email;
+	private String password;
+	private List<Coupon> coupons;
+
+	public Company() {
+		
+	}
+
+	public Company(String name, String email, String password, List<Coupon> coupons) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.coupons = coupons;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,34 +47,35 @@ public class Company {
 		this.id = id;
 	}
 
-	@Column(nullable = false)
-	public String getNameString() {
-		return nameString;
+	@Column
+	public String getName() {
+		return name;
 	}
 
-	public void setNameString(String nameString) {
-		this.nameString = nameString;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	@Column(nullable = false)
-	public String getEmailString() {
-		return emailString;
+	@Column(unique = true)
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmailString(String emailString) {
-		this.emailString = emailString;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	@Column(nullable = false)
-	public String getPasswordString() {
-		return passwordString;
+	@Column
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPasswordString(String passwordString) {
-		this.passwordString = passwordString;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@Access(AccessType.PROPERTY)
+	@OneToMany
 	public List<Coupon> getCoupons() {
 		return coupons;
 	}
@@ -68,20 +84,10 @@ public class Company {
 		this.coupons = coupons;
 	}
 
-	public Company() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Company(String nameString, String emailString, String passwordString, List<Coupon> coupons) {
-		this.nameString = nameString;
-		this.emailString = emailString;
-		this.passwordString = passwordString;
-		this.coupons = coupons;
-	}
-
 	@Override
 	public String toString() {
-		return "Company [id=" + id + ", nameString=" + nameString + ", coupons=" + coupons + "]";
+		return "Company [id=" + id + ", name=" + name + ", email=" + email + ", password="
+				+ password + ", coupons=" + coupons + "]";
 	}
 
 }
